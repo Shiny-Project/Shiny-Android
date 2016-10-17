@@ -7,10 +7,10 @@ android {
         applicationId "moe.kotori.shiny"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 3
-        versionName '0.1.3'
+        versionCode 4
+        versionName '0.1.4'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionNameSuffix 'idols'
+        versionNameSuffix '-idols'
     }
     buildTypes {
         release {
