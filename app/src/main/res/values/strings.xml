@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Shiny</string>
+    <string name="action_settings">Settings</string>
+    <string name="refresh">刷新</string>
+    <string name="refreshSucceed">刷新成功</string>
+    <string name="NormalEvent">一般事件</string>
+    <string name="FunEvent">有趣的事件</string>
+    <string name="ImportantEvent">重要事件</string>
+    <string name="EmergencyEvent">紧急事件</string>
+    <string name="WorldBeRuined">世界毁灭</string>
+    <string name="ShinyInitFinished">Shiny已经开始运行</string>
+    <string name="FailedSocketServerInit">Socket服务器初始化失败</string>
+    <string name="SuccessConnected">连接成功，现在你可以收到Shiny~的推送消息啦！</string>
+    <string name="ParseJsonFailedFromSocket">Socket收到的数据无法解析为json</string>
+    <string name="DisconnectedFromSocket">和Socket服务器连接断开</string>
+    <string name="ShinyKeepAlived">Shiny~保持连接状态</string>
+</resources>
