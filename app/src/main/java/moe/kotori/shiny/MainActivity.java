@@ -18,12 +18,12 @@ import java.util.List;
 
 import moe.kotori.shiny.data.DataListener;
 import moe.kotori.shiny.data.MessageItem;
-import moe.kotori.shiny.data.RecentInfo;
+import moe.kotori.shiny.data.RequestHelper;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mainListView;
     private MainAdapter mainAdapter;
-    private RecentInfo recentInfo;
+    private RequestHelper requestHelper;
     private MsgReceiver msgReceiver;
 
     @Override
@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //初始化数据源
-        recentInfo = new RecentInfo(this);
+        requestHelper = new RequestHelper(this);
         mainListView = (RecyclerView) findViewById(R.id.main_list_view);
         mainListView.setLayoutManager(new LinearLayoutManager(this));
-        mainAdapter = new MainAdapter(this);
+        mainAdapter = new MainAdapter(this, requestHelper);
         mainListView.setAdapter(mainAdapter);
         reloadData();
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reloadData() {
-        recentInfo.getRecent(new DataListener() {
+        requestHelper.getRecent(new DataListener() {
             @Override
             public void onData(List<MessageItem> items) {
                 mainAdapter.updateMessageItems(items);

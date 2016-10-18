@@ -2,11 +2,17 @@ package moe.kotori.shiny;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,19 +20,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import moe.kotori.shiny.data.AsyncImageGetter;
+import moe.kotori.shiny.data.BitmapCache;
+import moe.kotori.shiny.data.CoverListener;
 import moe.kotori.shiny.data.MessageItem;
+import moe.kotori.shiny.data.RequestHelper;
 
 /**
  * Created by tedzy on 2016/10/16.
  */
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> implements OnItemTitleClickListener{
     private LayoutInflater inflater;
     private Context context;
+    private RequestHelper requestHelper;
     private List<MessageItem> messageItems;
+    private BitmapCache bitmapCache = new BitmapCache();
 
-    public MainAdapter(Context context){
+    public MainAdapter(Context context, RequestHelper requestHelper){
         this.context = context;
+        this.requestHelper = requestHelper;
         messageItems = new ArrayList<>();
         MessageItem n = new MessageItem();
         n.setContent(context.getString(R.string.ShinyInitFinished));
@@ -54,15 +67,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(inflater.inflate(R.layout.fragment_info_list_card, parent, false), null);
+        MyViewHolder holder = new MyViewHolder(inflater.inflate(R.layout.fragment_info_list_card, parent, false), this);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+        //填入内容
         final MessageItem item = messageItems.get(position);
-        holder.content.setText(item.getContent());
+        HtmlWriter htmlWriter = new HtmlWriter(context, holder.content, requestHelper, bitmapCache);
+        htmlWriter.render(item.getContent());
+        //填入来源
         holder.source.setText(item.getPublisher() + "#" + item.getHash());
+        //填入等级
         String[] levelChart = {
                 "N",
                 context.getString(R.string.NormalEvent),
@@ -72,8 +89,22 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
                 context.getString(R.string.WorldBeRuined)
         };
         holder.level.setText(levelChart[item.getLevel()]);
+        //填入标题
         holder.title.setText(item.getTitle());
+        //填入封面
+        String coverUrl = item.getCover();
+        if(coverUrl != null && !coverUrl.equals("")){
+            requestHelper.getImage(coverUrl, new CoverListener() {
+                @Override
+                public void OnImageGet(Bitmap image) {
+                    holder.cover.setImageBitmap(image);
+                }
+            });
+        }else{
+            holder.cover.setImageResource(R.mipmap.kotori);
+        }
 
+        //使标题可以点击
         holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,11 +125,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
         return messageItems.size();
     }
 
+    @Override
+    public void onItemTitleClick(View view, int position) {
+        Toast.makeText(context, "R " + position, Toast.LENGTH_LONG).show();
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
         TextView title;
         TextView level;
         TextView source;
         TextView content;
+        ImageView cover;
         OnItemTitleClickListener titleClickListener;
 
         public MyViewHolder(View itemView, OnItemTitleClickListener titleClickListener) {
@@ -108,6 +145,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
             level = (TextView) itemView.findViewById(R.id.item_data_level);
             source = (TextView) itemView.findViewById(R.id.item_data_source);
             content = (TextView) itemView.findViewById(R.id.item_data_content);
+            cover = (ImageView) itemView.findViewById(R.id.item_data_cover);
 
             itemView.setOnLongClickListener(this);
         }
@@ -121,4 +159,3 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
         }
     }
 }
-
