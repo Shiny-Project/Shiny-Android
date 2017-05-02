@@ -39,8 +39,16 @@ public class RequestHelper {
         this.rq = Volley.newRequestQueue(context);
     }
 
-    public void getRecent(final DataListener dataListener) {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, this.url, new Response.Listener<String>() {
+    public void getRecent(final DataListener dataListener){
+        getRecent(dataListener, 1);
+    }
+
+    public void getRecent(final DataListener dataListener, int page) {
+        if(page < 1){
+            page = 1;
+        }
+        String paramedUrl = this.url + "?page=" + page;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, paramedUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 List<MessageItem> messageItems = new ArrayList<>();

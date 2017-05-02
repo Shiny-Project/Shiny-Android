@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +18,13 @@ import android.widget.Toast;
 import java.util.List;
 
 import moe.kotori.shiny.data.DataListener;
+import moe.kotori.shiny.data.EndLessOnScrollListener;
 import moe.kotori.shiny.data.MessageItem;
 import moe.kotori.shiny.data.RequestHelper;
+import moe.kotori.shiny.pref.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
+    private SwipeRefreshLayout mainRefreshLayout;
     private RecyclerView mainListView;
     private MainAdapter mainAdapter;
     private RequestHelper requestHelper;
@@ -34,13 +38,36 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mainRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
+        mainRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent, R.color.colorPrimaryDark);
+
         //初始化数据源
         requestHelper = new RequestHelper(this);
         mainListView = (RecyclerView) findViewById(R.id.main_list_view);
-        mainListView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mainListView.setLayoutManager(linearLayoutManager);
         mainAdapter = new MainAdapter(this, requestHelper);
         mainListView.setAdapter(mainAdapter);
         reloadData();
+
+        mainRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reloadData();
+            }
+        });
+
+        mainListView.addOnScrollListener(new EndLessOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                requestHelper.getRecent(new DataListener() {
+                    @Override
+                    public void onData(List<MessageItem> items) {
+                        mainAdapter.addMessageItemsOnTail(items);
+                    }
+                }, currentPage);
+            }
+        });
 
         //注册广播接收
         msgReceiver = new MsgReceiver();
@@ -50,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         //启动服务
         if(isServiceRunning()) {
-            Toast.makeText(this, R.string.ShinyKeepAlived, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, R.string.ShinyKeepAlived, Toast.LENGTH_LONG).show();
         }else{
             Intent mIntent = new Intent(this, SocketService.class);
             startService(mIntent);
@@ -62,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onData(List<MessageItem> items) {
                 mainAdapter.updateMessageItems(items);
+                mainRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -87,10 +115,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            reloadData();
-            Toast.makeText(this, R.string.refreshSucceed, Toast.LENGTH_LONG).show();
-            return true;
+        if (id == R.id.action_setting) {
+            startActivity(new Intent(this, SettingsActivity.class));
+        }else if (id == R.id.action_account){
+            Toast.makeText(MainActivity.this, "not implementation", Toast.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);

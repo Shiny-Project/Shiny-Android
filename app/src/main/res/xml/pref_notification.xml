@@ -1,0 +1,37 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="disturb_mode"
+        android:summary="@string/distrub_mode_summary"
+        android:title="@string/disturb_mode"
+        android:disableDependentsState="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:dependency="disturb_mode"
+        android:disableDependentsState="true"
+        android:key="except_special_focus"
+        android:summary="@string/except_special_focus_summary"
+        android:title="@string/except_special_focus" />
+
+    <!-- Allows the user to choose a ringtone in the 'notification' category. -->
+    <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+    <!-- NOTE: RingtonePreference's summary should be set to its value by the activity code. -->
+    <RingtonePreference
+        android:defaultValue="content://settings/system/notification_sound"
+        android:key="notifications_new_message_ringtone"
+        android:ringtoneType="notification"
+        android:summary="@string/pref_summary_ringtone"
+        android:title="@string/pref_title_ringtone" />
+
+    <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notifications_new_message_vibrate"
+        android:summary="@string/pref_summary_vibrate"
+        android:title="@string/pref_title_vibrate" />
+
+</PreferenceScreen>

@@ -1,0 +1,8 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:title="@string/about"
+        android:key="pref_about"
+        android:summary="@string/about_summary" />
+</PreferenceScreen>

@@ -9,11 +9,16 @@
     tools:context="moe.kotori.shiny.MainActivity"
     tools:showIn="@layout/activity_main">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_list_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/main_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

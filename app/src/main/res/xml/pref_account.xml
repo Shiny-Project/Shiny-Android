@@ -1,0 +1,9 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="sync_subscribe"
+        android:summary="@string/sync_subscribe_summary"
+        android:title="@string/sync_subscribe_title" />
+
+</PreferenceScreen>

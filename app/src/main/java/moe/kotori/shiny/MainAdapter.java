@@ -59,6 +59,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
         this.notifyDataSetChanged();
     }
 
+    public void addMessageItemsOnTail(List<MessageItem> items) {
+        this.messageItems.addAll(items);
+        this.notifyDataSetChanged();
+    }
+
     public void insertFront(MessageItem newItem){
         this.messageItems.add(0, newItem);
         this.notifyItemInserted(0);

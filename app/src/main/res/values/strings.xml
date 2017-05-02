@@ -2,7 +2,6 @@
     <string name="app_name">Shiny</string>
     <string name="action_settings">Settings</string>
     <string name="refresh">刷新</string>
-    <string name="refreshSucceed">刷新成功</string>
     <string name="NormalEvent">一般事件</string>
     <string name="FunEvent">有趣的事件</string>
     <string name="ImportantEvent">重要事件</string>
@@ -14,4 +13,22 @@
     <string name="ParseJsonFailedFromSocket">Socket收到的数据无法解析为json</string>
     <string name="DisconnectedFromSocket">和Socket服务器连接断开</string>
     <string name="ShinyKeepAlived">Shiny~保持连接状态</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="pref_header_notifications">通知</string>
+    <string name="pref_title_ringtone">通知铃声</string>
+    <string name="pref_ringtone_silent">静音</string>
+    <string name="pref_title_vibrate">振动</string>
+    <string name="setting">设置</string>
+    <string name="account">账户</string>
+    <string name="sync_subscribe_summary">与服务器自动同步订阅的频道（未开放）。</string>
+    <string name="sync_subscribe_title">同步订阅</string>
+    <string name="distrub_mode_summary">开启后将不再进行通知（消息接收仍在进行）（未开放）</string>
+    <string name="disturb_mode">免打扰模式</string>
+    <string name="except_special_focus_summary">即使在免打扰模式下，特别关注的通知仍然进行。（未开放）</string>
+    <string name="except_special_focus">特别关注除外</string>
+    <string name="pref_summary_ringtone">更改通知铃声（未开放）</string>
+    <string name="pref_summary_vibrate">控制有通知时是否振动（未开放）</string>
+    <string name="more">更多</string>
+    <string name="about">关于</string>
+    <string name="about_summary">本版本为Shiny测试版</string>
 </resources>
