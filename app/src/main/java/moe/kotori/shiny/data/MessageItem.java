@@ -17,6 +17,7 @@ public class MessageItem {
     private String link; //消息内容链接
     private String cover; //消息内容封面图
     private String content; //消息内容正文
+    private String createdAt; //时间
 
     public String getId() {
         return id;
@@ -82,6 +83,14 @@ public class MessageItem {
         this.content = content;
     }
 
+    public String getCreatedAt(){
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt){
+        this.createdAt = createdAt;
+    }
+
     public void parse(JSONObject json){
         try {
             this.id = json.getString("id");
@@ -128,6 +137,12 @@ public class MessageItem {
             this.content = contentData.getString("content");
         } catch (JSONException e) {
             this.content = "Content is blank.";
+        }
+        try{
+            this.createdAt = json.getString("createdAt");
+        }
+        catch (JSONException e){
+            this.createdAt = "未知时间";
         }
     }
 
@@ -184,5 +199,6 @@ public class MessageItem {
         } catch (JSONException e) {
             this.content = "Content is blank.";
         }
+        this.createdAt = "刚刚";
     }
 }
