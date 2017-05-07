@@ -94,6 +94,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
                 context.getString(R.string.WorldBeRuined)
         };
         holder.level.setText(levelChart[item.getLevel()]);
+        //填入时间
+        holder.createdAt.setText(item.getCreatedAt());
         //填入标题
         holder.title.setText(item.getTitle());
         //填入封面
@@ -140,6 +142,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
         TextView level;
         TextView source;
         TextView content;
+        TextView createdAt;
         ImageView cover;
         OnItemTitleClickListener titleClickListener;
 
@@ -151,6 +154,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
             source = (TextView) itemView.findViewById(R.id.item_data_source);
             content = (TextView) itemView.findViewById(R.id.item_data_content);
             cover = (ImageView) itemView.findViewById(R.id.item_data_cover);
+            createdAt = (TextView) itemView.findViewById(R.id.item_data_created_at);
 
             itemView.setOnLongClickListener(this);
         }
