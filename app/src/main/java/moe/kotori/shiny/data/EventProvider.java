@@ -20,7 +20,7 @@ import moe.kotori.shiny.R;
 public class EventProvider {
     private Context context;
     private Socket socket;
-    final private String url = "http://api.kotori.moe:3737";
+    final private String url = "http://websocket.shiny.kotori.moe:3737";
 
     public EventProvider(Context context){
         this.context = context;
