@@ -55,7 +55,7 @@ public class RequestHelper {
 
                 try {
                     JSONObject mainData = new JSONObject(response);
-                    JSONArray dataList = mainData.getJSONArray("data");
+                    JSONArray dataList = mainData.getJSONObject("data").getJSONArray("events");
                     for (int i = 0; i < dataList.length(); i++) {
                         JSONObject json = dataList.getJSONObject(i);
                         MessageItem mi = new MessageItem();
